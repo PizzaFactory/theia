@@ -248,6 +248,8 @@ export class GitContribution implements
 
     protected toDispose = new DisposableCollection();
 
+    protected readonly icons: Map<string, ScmCommand> = new Map();
+
     private dirtyRepositories: Repository[] = [];
     private scmProviders: ScmProvider[] = [];
 
@@ -315,9 +317,9 @@ export class GitContribution implements
                         command: GIT_COMMANDS.CHECKOUT.id
                     }]);
                     provider.fireChangeResources();
+                    this.updateSyncStatusBarEntry(event.source.localUri);
                 });
             }
-            this.updateSyncStatusBarEntry(event.source.localUri);
         });
         this.syncService.onDidChange(() => this.updateSyncStatusBarEntry(
             this.repositoryProvider.selectedRepository
